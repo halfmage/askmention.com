@@ -1,11 +1,11 @@
 export const site = {
-  name: "LocalClicks.eu",
-  url: "https://localclicks.eu",
+  name: "AskMention",
+  url: "https://askmention.com",
   tagline: "Lokale Sichtbarkeit für Dienstleister in Deutschland",
-  title: "LocalClicks.eu | Mehr lokale Anfragen aus Google, Google Maps und ChatGPT",
+  title: "AskMention | Mehr lokale Anfragen aus Google, Google Maps und ChatGPT",
   description:
     "Smart Website plus lokales Suchmarketing für Dienstleister in Deutschland. Sichtbar in Google, Google Maps und KI-Suchen wie ChatGPT. Alles aus einer Hand, monatlich kündbar.",
-  email: "hello@localclicks.eu",
+  email: "hello@askmention.com",
   owner: "Gerrit Halfmann",
   ownerHandle: "@halfmage",
   ownerSite: "https://halfmage.com",
@@ -185,12 +185,12 @@ export const newWay = [
 
 export const faq = [
   {
-    q: "Ist LocalClicks.eu eine Software oder eine Agentur?",
-    a: "Beides, und keins von beidem. KI übernimmt die Routinearbeit: Inhalte, Optimierung, Monitoring, Verzeichniseinträge. Ein Mensch, Gerrit Halfmann, prüft jeden Monat dein Konto, passt die Strategie an und trifft die Entscheidungen, die Software allein nicht treffen kann. Deshalb kostet LocalClicks.eu einen Bruchteil einer klassischen Agentur und liefert trotzdem ein fertiges Ergebnis statt eines Dashboards.",
+    q: "Ist AskMention eine Software oder eine Agentur?",
+    a: "Beides, und keins von beidem. KI übernimmt die Routinearbeit: Inhalte, Optimierung, Monitoring, Verzeichniseinträge. Ein Mensch, Gerrit Halfmann, prüft jeden Monat dein Konto, passt die Strategie an und trifft die Entscheidungen, die Software allein nicht treffen kann. Deshalb kostet AskMention einen Bruchteil einer klassischen Agentur und liefert trotzdem ein fertiges Ergebnis statt eines Dashboards.",
   },
   {
-    q: "Was kostet LocalClicks.eu?",
-    a: `LocalClicks.eu kostet ${site.price.monthly} ${site.price.currency} pro Monat. Keine Einrichtungsgebühr, keine Mindestlaufzeit, keine versteckten Kosten. Enthalten sind die Smart Website, Hosting in der EU, lokales SEO, Pflege des Google Business Profile, Optimierung für KI-Suchen, Bewertungs-Automation und ein monatlicher Report. Es gibt keine Zusatzpakete. Alles ist im Monatspreis enthalten.`,
+    q: "Was kostet AskMention?",
+    a: `AskMention kostet ${site.price.monthly} ${site.price.currency} pro Monat. Keine Einrichtungsgebühr, keine Mindestlaufzeit, keine versteckten Kosten. Enthalten sind die Smart Website, Hosting in der EU, lokales SEO, Pflege des Google Business Profile, Optimierung für KI-Suchen, Bewertungs-Automation und ein monatlicher Report. Es gibt keine Zusatzpakete. Alles ist im Monatspreis enthalten.`,
   },
   {
     q: "Wie starte ich?",
@@ -198,7 +198,7 @@ export const faq = [
   },
   {
     q: "Gibt es eine Vertragslaufzeit?",
-    a: "Nein. LocalClicks.eu ist monatlich kündbar. Ich binde niemanden, weil ich von den Ergebnissen überzeugt bin und weil gute Arbeit jeden Monat neu verdient werden muss. Lokales SEO baut allerdings aufeinander auf. Kunden, die sechs Monate oder länger dabei sind, sehen die stärksten Ergebnisse.",
+    a: "Nein. AskMention ist monatlich kündbar. Ich binde niemanden, weil ich von den Ergebnissen überzeugt bin und weil gute Arbeit jeden Monat neu verdient werden muss. Lokales SEO baut allerdings aufeinander auf. Kunden, die sechs Monate oder länger dabei sind, sehen die stärksten Ergebnisse.",
   },
   {
     q: "Für welche Unternehmen ist das gedacht?",

@@ -1,4 +1,4 @@
-# LocalClicks.eu
+# AskMention
 
 German landing page for a "Smart Website + local search marketing" service for local businesses in DACH. Owner: Gerrit Halfmann (halfmage). Modeled on the section structure of localclicks.ai, all copy is original German.
 
@@ -24,10 +24,10 @@ German landing page for a "Smart Website + local search marketing" service for l
 - Testimonials are translated from English originals on halfmage.com. Do not edit the wording.
 
 ## Deployment (VPS)
-- `astro.config.mjs` has `site: "https://localclicks.eu"`. Canonicals, sitemap and JSON-LD use it. On any staging host (e.g. dev.halfmage.com) add `X-Robots-Tag: noindex` at the web server level.
+- `astro.config.mjs` has `site: "https://askmention.com"`. Canonicals, sitemap and JSON-LD use it. On any staging host (e.g. dev.halfmage.com) add `X-Robots-Tag: noindex` at the web server level.
 - Static build: serve `dist/` with Nginx or Caddy. No Node process needed at runtime.
 - The form (`#analyse`) currently uses Netlify Forms attributes (`data-netlify`). On the VPS this does nothing. Replace with an external form service or a small mail endpoint before going live. `action="/danke"` is the success page.
 - Fonts load from Google Fonts. For strict DSGVO, self-host them and remove section 5 in `datenschutz.astro`.
 
 ## Open decisions (Gerrit owns these)
-- Final monthly price. "du" vs "Sie". Contact email hello@localclicks.eu must exist. Client approval for testimonials. Legal review.
+- Final monthly price. "du" vs "Sie". Contact email hello@askmention.com must exist. Client approval for testimonials. Legal review.

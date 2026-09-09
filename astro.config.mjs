@@ -4,7 +4,7 @@ import sitemap from "@astrojs/sitemap";
 import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
-  site: "https://localclicks.eu",
+  site: "https://askmention.com",
   output: "static",
   compressHTML: true,
   integrations: [sitemap()],

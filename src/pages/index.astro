@@ -345,7 +345,7 @@ const jsonLd = [
           <ul class="cross-list mt-6 space-y-3 !text-white/80">{oldWay.map((x) => <li>{x}</li>)}</ul>
         </div>
         <div class="rounded-xl2 bg-white p-7 text-ink">
-          <p class="text-sm font-semibold text-accent">Der LocalClicks-Weg</p>
+          <p class="text-sm font-semibold text-accent">Der AskMention-Weg</p>
           <p class="h-display mt-1 text-2xl">Smart Website + lokales Marketing</p>
           <ul class="check-list mt-6 space-y-3">{newWay.map((x) => <li>{x}</li>)}</ul>
         </div>
@@ -423,9 +423,8 @@ const jsonLd = [
           </div>
         </div>
       </div>
-      <form name="analyse" method="POST" data-netlify="true" netlify-honeypot="website-url" action="/danke" class="card p-7 sm:p-9">
-        <input type="hidden" name="form-name" value="analyse" />
-        <p class="hidden"><label>Nicht ausfüllen: <input name="website-url" /></label></p>
+      <form name="analyse" method="POST" action="/submit.php" class="card p-7 sm:p-9">
+                <p class="hidden"><label>Nicht ausfüllen: <input name="website-url" /></label></p>
         <div class="grid gap-5 sm:grid-cols-2">
           <label class="block text-sm font-medium">Name
             <input required name="name" type="text" autocomplete="name" class="mt-1.5 w-full rounded-lg border border-line bg-paper px-3.5 py-2.5 text-base outline-none focus:border-accent focus:ring-2 focus:ring-accent/20" />
