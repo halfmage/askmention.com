@@ -1,0 +1,33 @@
+---
+import Base from "../layouts/Base.astro";
+import { site } from "../data/site";
+---
+<Base title="Impressum | LocalClicks.eu" description="Impressum und Anbieterkennzeichnung von LocalClicks.eu." noindex>
+  <section class="container-site max-w-3xl py-16 sm:py-24">
+    <p class="eyebrow">Rechtliches</p>
+    <h1 class="h-display mt-3 text-4xl sm:text-5xl">Impressum</h1>
+    <div class="prose-custom mt-10 space-y-8 text-ink-2 leading-relaxed">
+      <div>
+        <h2 class="font-display text-xl font-semibold text-ink">Angaben gemäß § 5 DDG</h2>
+        <p class="mt-2">Halfmage<br />Gerrit Halfmann<br />Stanisława Drabika 10<br />52-131 Wrocław<br />Polen</p>
+        <p class="mt-2">Steuernummer (NIP): 8993022263</p>
+      </div>
+      <div>
+        <h2 class="font-display text-xl font-semibold text-ink">Kontakt</h2>
+        <p class="mt-2">E-Mail: <a href={`mailto:${site.email}`} class="text-accent underline underline-offset-4">{site.email}</a><br />Web: <a href={site.ownerSite} class="text-accent underline underline-offset-4">halfmage.com</a></p>
+      </div>
+      <div>
+        <h2 class="font-display text-xl font-semibold text-ink">Verantwortlich für den Inhalt</h2>
+        <p class="mt-2">Gerrit Halfmann, Anschrift wie oben.</p>
+      </div>
+      <div>
+        <h2 class="font-display text-xl font-semibold text-ink">Haftung für Links</h2>
+        <p class="mt-2">Diese Website enthält Links zu externen Websites Dritter. Auf deren Inhalte habe ich keinen Einfluss. Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber verantwortlich. Die verlinkten Seiten wurden zum Zeitpunkt der Verlinkung auf mögliche Rechtsverstöße geprüft.</p>
+      </div>
+      <div>
+        <h2 class="font-display text-xl font-semibold text-ink">Streitbeilegung</h2>
+        <p class="mt-2">Ich bin nicht bereit und nicht verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.</p>
+      </div>
+    </div>
+  </section>
+</Base>

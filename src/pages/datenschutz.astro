@@ -1,0 +1,28 @@
+---
+import Base from "../layouts/Base.astro";
+import { site } from "../data/site";
+const sections = [
+  { h: "1. Verantwortlicher", p: ["Verantwortlich für die Datenverarbeitung auf dieser Website ist Gerrit Halfmann, Halfmage, Stanisława Drabika 10, 52-131 Wrocław, Polen. E-Mail: " + site.email + "."] },
+  { h: "2. Hosting", p: ["Diese Website wird als statische Website ausgeliefert. Beim Aufruf verarbeitet der Hosting-Anbieter technisch notwendige Daten: IP-Adresse, Datum und Uhrzeit, aufgerufene Seite, Browser und Betriebssystem. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO. Die Server-Logs werden nach kurzer Zeit gelöscht."] },
+  { h: "3. Kontaktformular und E-Mail", p: ["Wenn du das Formular für die kostenlose Analyse nutzt oder mir eine E-Mail schreibst, verarbeite ich die angegebenen Daten (Name, Unternehmen, Website, Ort, E-Mail, optional Telefon und Nachricht) zur Bearbeitung deiner Anfrage. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO. Die Daten werden gelöscht, wenn die Anfrage abgeschlossen ist und keine gesetzlichen Aufbewahrungspflichten bestehen."] },
+  { h: "4. Statistik", p: ["Diese Website nutzt eine datenschutzfreundliche Reichweitenmessung ohne Cookies und ohne Speicherung personenbezogener Daten. Ein Cookie-Banner ist deshalb nicht erforderlich."] },
+  { h: "5. Schriftarten", p: ["Diese Website lädt Schriftarten von Google Fonts. Dabei wird deine IP-Adresse an Google übertragen. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO. Hinweis: Für den Produktivbetrieb empfehle ich das lokale Einbinden der Schriften. Dann entfällt dieser Abschnitt."] },
+  { h: "6. Deine Rechte", p: ["Du hast das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung, Datenübertragbarkeit und Widerspruch. Du kannst dich bei einer Datenschutz-Aufsichtsbehörde beschweren. Schreib mir dazu an " + site.email + "."] },
+  { h: "7. Stand", p: ["September 2026. Diese Erklärung wird bei Änderungen der Website angepasst."] },
+];
+---
+<Base title="Datenschutzerklärung | LocalClicks.eu" description="Datenschutzerklärung von LocalClicks.eu." noindex>
+  <section class="container-site max-w-3xl py-16 sm:py-24">
+    <p class="eyebrow">Rechtliches</p>
+    <h1 class="h-display mt-3 text-4xl sm:text-5xl">Datenschutzerklärung</h1>
+    <p class="mt-4 text-ink-2">Kurz gesagt: Diese Website sammelt so wenig Daten wie möglich. Keine Tracking-Cookies, keine Werbenetzwerke.</p>
+    <div class="mt-10 space-y-8 leading-relaxed text-ink-2">
+      {sections.map((s) => (
+        <div>
+          <h2 class="font-display text-xl font-semibold text-ink">{s.h}</h2>
+          {s.p.map((t) => <p class="mt-2">{t}</p>)}
+        </div>
+      ))}
+    </div>
+  </section>
+</Base>

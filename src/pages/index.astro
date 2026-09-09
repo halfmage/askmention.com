@@ -1,0 +1,471 @@
+---
+import Base from "../layouts/Base.astro";
+import { site, platforms, results, cases, testimonials, smartFeatures, oldWay, newWay, faq } from "../data/site";
+
+const price = `${site.price.monthly.toLocaleString("de-DE")} ${site.price.currency}`;
+
+const icons: Record<string, string> = {
+  calendar: '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>',
+  star: '<path d="M12 3l2.8 5.9 6.4.8-4.7 4.4 1.2 6.4L12 17.4 6.3 20.5l1.2-6.4L2.8 9.7l6.4-.8z"/>',
+  phone: '<rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/>',
+  pin: '<path d="M12 21s-6-5.2-6-11a6 6 0 1 1 12 0c0 5.8-6 11-6 11z"/><circle cx="12" cy="10" r="2.2"/>',
+  sparkle: '<path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/><path d="M19 17l.7 2 2 .7-2 .7-.7 2-.7-2-2-.7 2-.7z"/>',
+  chart: '<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
+};
+
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    name: site.name,
+    url: site.url,
+    description: site.description,
+    email: site.email,
+    areaServed: ["DE", "AT", "CH"],
+    founder: { "@type": "Person", name: site.owner, url: site.ownerSite },
+    priceRange: `${price} / Monat`,
+    sameAs: [site.ownerSite],
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faq.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
+  },
+];
+---
+<Base jsonLd={jsonLd}>
+  <!-- HERO -->
+  <section class="relative overflow-hidden">
+    <div class="grid-bg pointer-events-none absolute inset-0"></div>
+    <div class="container-site relative grid items-center gap-12 py-16 sm:py-20 lg:grid-cols-[1.05fr_0.95fr] lg:py-28">
+      <div>
+        <p class="eyebrow">Für lokale Dienstleister in Deutschland</p>
+        <h1 class="h-display mt-5 text-4xl leading-[1.05] sm:text-5xl lg:text-6xl">
+          Mehr lokale Anfragen. Aus Google, Google Maps <span class="text-accent">und ChatGPT.</span>
+        </h1>
+        <p class="mt-6 max-w-xl text-lg leading-relaxed text-ink-2">
+          Eine Smart Website plus lokales Suchmarketing, fertig eingerichtet in 7 Tagen. Deine Kunden finden dich überall, wo sie suchen. Du beantwortest nur die Anfragen.
+        </p>
+        <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+          <a href="#analyse" class="btn-primary">Kostenlose Sichtbarkeits-Analyse</a>
+          <a href="#leistungen" class="btn-ghost">So funktioniert es</a>
+        </div>
+        <div class="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4 text-sm text-ink-2">
+          <div class="flex items-center gap-2">
+            <span class="flex text-star" aria-label="5 Sterne">{[0,1,2,3,4].map(() => <svg viewBox="0 0 20 20" class="h-4 w-4 fill-current"><path d="M10 1.5l2.6 5.6 6.1.7-4.5 4.2 1.2 6L10 15l-5.4 3 1.2-6L1.3 7.8l6.1-.7z"/></svg>)}</span>
+            <span>Kunden seit {site.ownerSince}</span>
+          </div>
+          <div class="flex items-center gap-2"><span class="h-1.5 w-1.5 rounded-full bg-lime"></span>Monatlich kündbar</div>
+          <div class="flex items-center gap-2"><span class="h-1.5 w-1.5 rounded-full bg-lime"></span>Ein Ansprechpartner</div>
+        </div>
+      </div>
+
+      <!-- Hero visual: three search surfaces -->
+      <div class="relative mx-auto w-full max-w-md lg:max-w-none" aria-hidden="true">
+        <div class="card relative z-10 p-4">
+          <div class="flex items-center gap-2 text-xs text-ink-3">
+            <svg viewBox="0 0 24 24" class="h-4 w-4 text-accent" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-6-5.2-6-11a6 6 0 1 1 12 0c0 5.8-6 11-6 11z"/><circle cx="12" cy="10" r="2.2"/></svg>
+            Google Maps · „Elektriker in meiner Nähe“
+          </div>
+          <div class="mt-3 space-y-2">
+            {[
+              { n: "Elektro Meier GmbH", r: "4,9", c: "212", top: true },
+              { n: "Elektrotechnik Schulz", r: "4,6", c: "88" },
+              { n: "Blitz Elektro", r: "4,3", c: "41" },
+            ].map((x) => (
+              <div class:list={["flex items-center justify-between rounded-lg border px-3 py-2.5", x.top ? "border-accent/40 bg-accent/5" : "border-line"]}>
+                <div>
+                  <p class="text-sm font-semibold">{x.n}</p>
+                  <p class="text-xs text-ink-3"><span class="text-star">★</span> {x.r} · {x.c} Bewertungen · Geöffnet</p>
+                </div>
+                {x.top && <span class="rounded-full bg-lime px-2 py-0.5 text-[11px] font-semibold">#1</span>}
+              </div>
+            ))}
+          </div>
+        </div>
+        <div class="card relative z-20 -mt-6 ml-8 p-4 sm:ml-16">
+          <div class="flex items-center gap-2 text-xs text-ink-3">
+            <span class="grid h-4 w-4 place-items-center rounded-full bg-ink text-[9px] font-bold text-white">AI</span>
+            ChatGPT · „Wer ist ein guter Elektriker in Münster?“
+          </div>
+          <p class="mt-3 text-sm leading-relaxed">
+            Eine häufig empfohlene Adresse ist <mark class="rounded bg-lime px-1 font-semibold">Elektro Meier GmbH</mark>: 4,9 Sterne aus über 200 Bewertungen, Notdienst rund um die Uhr, Festpreise online einsehbar.
+          </p>
+        </div>
+        <div class="card relative z-30 -mt-5 mr-6 p-4 sm:-ml-6">
+          <div class="flex items-center justify-between text-xs text-ink-3">
+            <span>Anfragen letzte 30 Tage</span><span class="font-semibold text-forest">+67 %</span>
+          </div>
+          <svg viewBox="0 0 300 70" class="mt-2 h-16 w-full" fill="none">
+            <defs><linearGradient id="g" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#e9421c" stop-opacity=".25"/><stop offset="1" stop-color="#e9421c" stop-opacity="0"/></linearGradient></defs>
+            <path d="M0 60 C40 58, 60 50, 90 48 S150 44, 180 34 S240 20, 300 8 V70 H0 Z" fill="url(#g)"/>
+            <path d="M0 60 C40 58, 60 50, 90 48 S150 44, 180 34 S240 20, 300 8" stroke="#e9421c" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLATFORMS -->
+  <section class="border-y border-line bg-white/60 py-6">
+    <div class="container-site">
+      <p class="text-center text-xs font-semibold uppercase tracking-[0.14em] text-ink-3">Sichtbar überall, wo deine Kunden suchen</p>
+      <div class="marquee mt-4 overflow-hidden">
+        <div class="marquee-track font-display text-lg font-semibold text-ink-2">
+          {[...platforms, ...platforms].map((p) => <span class="flex items-center gap-3"><span class="h-1.5 w-1.5 rounded-full bg-accent"></span>{p}</span>)}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROBLEM -->
+  <section class="container-site py-20 sm:py-28">
+    <div class="max-w-2xl">
+      <p class="eyebrow">Das Problem</p>
+      <h2 class="h-display mt-3 text-3xl sm:text-4xl lg:text-5xl">Warum dein Betrieb Kunden an den Wettbewerb verliert</h2>
+      <p class="mt-5 text-lg text-ink-2">Du hast ein gutes Geschäft aufgebaut. Aber wenn dich niemand findet, während er gerade sucht, existierst du für ihn nicht.</p>
+    </div>
+    <div class="mt-12 grid gap-5 md:grid-cols-3">
+      {[
+        { t: "Deine Website kostet dich jeden Tag Kunden", s: "weil sie …", items: ["veraltet ist", "kaum Anfragen bringt", "nicht für KI-Suchen optimiert ist", "in Google nicht rankt"] },
+        { t: "Agenturen bremsen dein Wachstum", s: "weil sie …", items: ["viel zu viel verlangen", "nur das Minimum liefern", "Versprechen selten einhalten", "auf 12 Monate binden"] },
+        { t: "KI verändert die lokale Suche", s: "und jetzt …", items: ["fragen Kunden ChatGPT statt Google", "zeigt Google KI-Antworten statt Links", "gewinnen die, die zuerst da sind", "fallen lokale Betriebe schnell zurück"] },
+      ].map((c) => (
+        <div class="card p-7">
+          <h3 class="font-display text-xl font-semibold leading-snug">{c.t}</h3>
+          <p class="mt-1 text-sm text-ink-3">{c.s}</p>
+          <ul class="cross-list mt-5 space-y-2.5 text-[15px]">{c.items.map((i) => <li>{i}</li>)}</ul>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- LEISTUNGEN -->
+  <section id="leistungen" class="bg-forest text-white">
+    <div class="container-site py-20 sm:py-28">
+      <div class="max-w-2xl">
+        <p class="eyebrow !text-lime">Was wir machen</p>
+        <h2 class="h-display mt-3 text-3xl sm:text-4xl lg:text-5xl">Ein fertiges System, mit dem lokale Kunden dich finden</h2>
+        <p class="mt-5 text-lg text-white/70">Die Suche verändert sich. Wir sorgen dafür, dass du vorne bleibst.</p>
+      </div>
+
+      <div class="mt-16 space-y-20">
+        <!-- 1 -->
+        <div class="grid items-center gap-10 lg:grid-cols-2">
+          <div>
+            <span class="inline-block rounded-full bg-white/10 px-3 py-1 text-xs font-semibold">01 · Smart Website</span>
+            <h3 class="h-display mt-4 text-2xl sm:text-3xl">Deine Website, fertig in 7 Tagen oder weniger</h3>
+            <p class="mt-4 text-white/70">Auf deine Marke und Leistungen zugeschnitten. Gebaut, um Besucher in Anfragen zu verwandeln, nicht um schön auszusehen und zu schweigen.</p>
+            <ul class="check-list mt-6 space-y-3 text-white/90">
+              <li>Individuell für Marke, Leistungen und Region</li>
+              <li>KI-Funktionen und Automationen eingebaut</li>
+              <li>Schnell, barrierearm, DSGVO-konform, EU-Hosting</li>
+            </ul>
+          </div>
+          <div class="browser" aria-hidden="true">
+            <div class="browser-bar"><i></i><i></i><i></i><span class="ml-3 rounded bg-white px-2 py-0.5 text-[11px] text-ink-3">elektro-meier.de</span></div>
+            <div class="bg-paper p-6 text-ink">
+              <div class="flex items-center justify-between text-xs"><span class="font-bold">Elektro Meier</span><span class="rounded-full bg-ink px-3 py-1 text-white">Termin buchen</span></div>
+              <p class="h-display mt-6 text-2xl">Elektriker in Münster. Heute noch da.</p>
+              <p class="mt-2 text-sm text-ink-2">Notdienst, Installation, E-Check. Festpreis vorab.</p>
+              <div class="mt-4 flex gap-2"><span class="rounded-full bg-accent px-3 py-1.5 text-xs font-semibold text-white">Jetzt anrufen</span><span class="rounded-full border border-line px-3 py-1.5 text-xs font-semibold">Angebot in 24h</span></div>
+              <div class="mt-5 grid grid-cols-3 gap-2">{["Notdienst","E-Check","Wallbox"].map((x) => <div class="rounded-lg border border-line bg-white p-3 text-xs font-semibold">{x}</div>)}</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2 -->
+        <div class="grid items-center gap-10 lg:grid-cols-2">
+          <div class="order-2 grid gap-3 sm:grid-cols-3 lg:order-1" aria-hidden="true">
+            {[
+              { h: "Google Maps", b: "Platz 1 im Local Pack für „Elektriker Münster“." },
+              { h: "Google AI Overview", b: "Als Quelle zitiert. Dein Betrieb steht in der KI-Antwort." },
+              { h: "ChatGPT", b: "Wird auf Nachfrage empfohlen. Mit Begründung und Link." },
+            ].map((x) => (
+              <div class="rounded-xl border border-white/10 bg-white/5 p-4">
+                <p class="text-xs font-semibold text-lime">{x.h}</p>
+                <p class="mt-2 text-sm text-white/80">{x.b}</p>
+              </div>
+            ))}
+          </div>
+          <div class="order-1 lg:order-2">
+            <span class="inline-block rounded-full bg-white/10 px-3 py-1 text-xs font-semibold">02 · Lokale Sichtbarkeit</span>
+            <h3 class="h-display mt-4 text-2xl sm:text-3xl">Lokaler Traffic von jeder Plattform</h3>
+            <p class="mt-4 text-white/70">Wir bringen deinen Betrieb in Google Maps, in die KI-Antworten von Google, in lokale Verzeichnisse und in Tools wie ChatGPT. So bist du überall vor dem Wettbewerb, wo deine Kunden gerade suchen.</p>
+            <a href="#ergebnisse" class="btn-lime mt-6">Ergebnisse ansehen</a>
+          </div>
+        </div>
+
+        <!-- 3 -->
+        <div class="grid items-center gap-10 lg:grid-cols-2">
+          <div>
+            <span class="inline-block rounded-full bg-white/10 px-3 py-1 text-xs font-semibold">03 · Bewertungen</span>
+            <h3 class="h-display mt-4 text-2xl sm:text-3xl">5-Sterne-Bewertungen auf Autopilot</h3>
+            <p class="mt-4 text-white/70">Nach jedem abgeschlossenen Auftrag geht automatisch eine Bewertungsanfrage raus. Zufriedene Kunden landen auf Google. Unzufriedene landen zuerst bei dir.</p>
+            <ul class="check-list mt-6 space-y-3 text-white/90">
+              <li>Anfrage per E-Mail oder WhatsApp, in deinem Ton</li>
+              <li>Antworten auf Bewertungen inklusive</li>
+              <li>Mehr Sterne heißt bessere Position auf Maps</li>
+            </ul>
+          </div>
+          <div class="card p-6 text-ink" aria-hidden="true">
+            <div class="flex items-center justify-between"><p class="text-sm font-semibold">Neue Bewertungen</p><span class="text-xs text-ink-3">letzte 30 Tage</span></div>
+            <p class="h-display mt-2 text-5xl">+23</p>
+            <div class="mt-5 space-y-3">
+              {[["Sabine K.","Schnell, sauber, fairer Preis. Wallbox läuft."],["Thomas R.","Notdienst um 22 Uhr, 40 Minuten später war das Licht wieder an."]].map(([n,t]) => (
+                <div class="rounded-lg border border-line p-3">
+                  <div class="flex items-center justify-between text-xs"><span class="font-semibold">{n}</span><span class="text-star">★★★★★</span></div>
+                  <p class="mt-1 text-sm text-ink-2">{t}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ERGEBNISSE -->
+  <section id="ergebnisse" class="container-site py-20 sm:py-28">
+    <div class="max-w-2xl">
+      <p class="eyebrow">Echte Zahlen</p>
+      <h2 class="h-display mt-3 text-3xl sm:text-4xl lg:text-5xl">Was in den ersten Monaten passiert</h2>
+      <p class="mt-5 text-lg text-ink-2">Keine Prognosen. Zahlen aus der Google Search Console meiner Kunden, Stand September 2026.</p>
+    </div>
+    <div class="mt-12 grid gap-5 md:grid-cols-3">
+      {results.map((r) => (
+        <div class="card p-7">
+          <p class="h-display text-5xl text-accent">{r.value}</p>
+          <p class="mt-3 font-medium leading-snug">{r.label}</p>
+          <p class="mt-2 text-sm text-ink-3">{r.note}</p>
+        </div>
+      ))}
+    </div>
+    <div class="mt-8 grid gap-5 md:grid-cols-2">
+      {testimonials.map((t) => (
+        <figure class="card flex flex-col justify-between p-7">
+          <blockquote class="text-[17px] leading-relaxed">„{t.quote}“</blockquote>
+          <figcaption class="mt-5 flex items-center gap-3 text-sm">
+            <span class="grid h-9 w-9 place-items-center rounded-full bg-paper-2 font-display font-bold">{t.name.split(" ").map((s) => s[0]).join("")}</span>
+            <span><strong class="block font-semibold">{t.name}</strong><span class="text-ink-3">{t.role}</span></span>
+          </figcaption>
+        </figure>
+      ))}
+    </div>
+    <p class="mt-4 text-xs text-ink-3">Zitate teilweise aus dem Englischen übersetzt. Originale auf <a href={site.ownerSite} class="underline underline-offset-4">halfmage.com</a>.</p>
+  </section>
+
+  <!-- REFERENZEN -->
+  <section class="bg-paper-2">
+    <div class="container-site py-20 sm:py-28">
+      <div class="max-w-2xl">
+        <p class="eyebrow">Referenzen</p>
+        <h2 class="h-display mt-3 text-3xl sm:text-4xl lg:text-5xl">Aktuelle Kundenprojekte</h2>
+      </div>
+      <div class="mt-12 grid gap-6 sm:grid-cols-2">
+        {cases.map((c) => (
+          <a href={c.url} target="_blank" rel="noopener" class="card group overflow-hidden transition hover:-translate-y-1">
+            <div class="p-5" style={`background:${c.hue}`} aria-hidden="true">
+              <div class="browser">
+                <div class="browser-bar"><i></i><i></i><i></i><span class="ml-3 rounded bg-white px-2 py-0.5 text-[11px] text-ink-3">{c.url.replace("https://", "")}</span></div>
+                <div class="h-28 bg-gradient-to-br from-white to-paper p-4">
+                  <div class="h-2.5 w-24 rounded bg-ink/80"></div>
+                  <div class="mt-2 h-2 w-40 rounded bg-ink/20"></div>
+                  <div class="mt-1.5 h-2 w-32 rounded bg-ink/20"></div>
+                  <div class="mt-4 flex gap-2"><div class="h-6 w-20 rounded-full bg-accent/80"></div><div class="h-6 w-16 rounded-full border border-line bg-white"></div></div>
+                </div>
+              </div>
+            </div>
+            <div class="p-6">
+              <div class="flex items-center justify-between gap-4">
+                <h3 class="font-display text-xl font-semibold">{c.name}</h3>
+                <span class="rounded-full bg-paper-2 px-2.5 py-1 text-[11px] font-semibold text-ink-2">{c.type}</span>
+              </div>
+              <p class="mt-2 text-sm leading-relaxed text-ink-2">{c.text}</p>
+              <div class="mt-5 flex gap-6">
+                {c.metrics.map((m) => <div><p class="font-display text-2xl font-bold text-forest">{m.v}</p><p class="text-xs text-ink-3">{m.l}</p></div>)}
+              </div>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- SMART WEBSITE -->
+  <section class="bg-ink text-white">
+    <div class="container-site py-20 sm:py-28">
+      <div class="max-w-2xl">
+        <p class="eyebrow !text-lime">Smart Website</p>
+        <h2 class="h-display mt-3 text-3xl sm:text-4xl lg:text-5xl">Keine normale Website. Eine Website, die für dich arbeitet.</h2>
+        <p class="mt-5 text-lg text-white/70">Du beantwortest ein paar Fragen zu deinem Betrieb. Den Rest übernehmen wir.</p>
+      </div>
+      <div class="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {smartFeatures.map((f) => (
+          <div class="rounded-xl2 border border-white/10 bg-white/5 p-6">
+            <span class="grid h-10 w-10 place-items-center rounded-lg bg-lime text-ink">
+              <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" set:html={icons[f.icon]} />
+            </span>
+            <h3 class="mt-4 font-display text-lg font-semibold">{f.title}</h3>
+            <p class="mt-2 text-sm leading-relaxed text-white/70">{f.text}</p>
+          </div>
+        ))}
+      </div>
+
+      <div class="mt-20 max-w-2xl">
+        <h2 class="h-display text-3xl sm:text-4xl">Weg mit der Website von gestern</h2>
+        <p class="mt-4 text-white/70">Deine Website sollte keine digitale Broschüre sein. Sie sollte Anfragen bringen, auch wenn du gerade auf der Baustelle bist.</p>
+      </div>
+      <div class="mt-10 grid gap-5 md:grid-cols-2">
+        <div class="rounded-xl2 border border-white/10 p-7">
+          <p class="text-sm font-semibold text-white/60">Der alte Weg</p>
+          <p class="h-display mt-1 text-2xl">Ein Baukasten oder eine Webagentur</p>
+          <ul class="cross-list mt-6 space-y-3 !text-white/80">{oldWay.map((x) => <li>{x}</li>)}</ul>
+        </div>
+        <div class="rounded-xl2 bg-white p-7 text-ink">
+          <p class="text-sm font-semibold text-accent">Der LocalClicks-Weg</p>
+          <p class="h-display mt-1 text-2xl">Smart Website + lokales Marketing</p>
+          <ul class="check-list mt-6 space-y-3">{newWay.map((x) => <li>{x}</li>)}</ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PREISE -->
+  <section id="preise" class="container-site py-20 sm:py-28">
+    <div class="max-w-2xl">
+      <p class="eyebrow">Preisvergleich</p>
+      <h2 class="h-display mt-3 text-3xl sm:text-4xl lg:text-5xl">Der kluge Mittelweg</h2>
+      <p class="mt-5 text-lg text-ink-2">Kein billiges Tool. Keine überteuerte Agentur. Ein Hybrid, der Agentur-Ergebnisse zu einem Bruchteil der Kosten liefert.</p>
+    </div>
+    <div class="mt-12 grid gap-5 lg:grid-cols-3">
+      <div class="card p-7">
+        <p class="text-sm font-semibold text-ink-3">Selbst machen</p>
+        <p class="h-display mt-2 text-4xl">0 €<span class="text-base font-medium text-ink-3"> + deine Zeit</span></p>
+        <p class="mt-3 text-sm text-ink-2">Stunden an Lernen und Handarbeit jede Woche. Ergebnisse schwanken. Man fällt leicht zurück.</p>
+        <ul class="cross-list mt-6 space-y-2.5 text-sm">
+          <li>Keine Strategie, keine Erfahrung</li>
+          <li>10+ Stunden pro Woche</li>
+          <li>KI-Suche wird komplett verpasst</li>
+          <li>Langsame, unklare Ergebnisse</li>
+        </ul>
+      </div>
+      <div class="relative rounded-xl2 bg-forest p-7 text-white shadow-card ring-4 ring-lime/60">
+        <span class="absolute -top-3 left-7 rounded-full bg-lime px-3 py-1 text-xs font-bold text-ink">Empfohlen</span>
+        <p class="text-sm font-semibold text-lime">Smart Website + lokales Marketing</p>
+        <p class="h-display mt-2 text-4xl">{price}<span class="text-base font-medium text-white/60"> / Monat</span></p>
+        <p class="mt-3 text-sm text-white/70">Schneller Start, KI-gestützt, monatlich kündbar. Ergebnisse, die du im Report siehst.</p>
+        <ul class="check-list mt-6 space-y-2.5 text-sm">
+          <li>Individuelle Smart Website</li>
+          <li>Hosting in der EU + Sicherheit</li>
+          <li>Optimiert für Maps, Google und KI-Suchen</li>
+          <li>Alle Automationen inklusive</li>
+          <li>Bewertungs-Automation</li>
+          <li>Transparenter Monatsreport</li>
+        </ul>
+        <a href="#analyse" class="btn-lime mt-7 w-full">Kostenlose Analyse anfordern</a>
+        <p class="mt-3 text-center text-xs text-white/50">Keine Einrichtungsgebühr. Keine Mindestlaufzeit.</p>
+      </div>
+      <div class="card p-7">
+        <p class="text-sm font-semibold text-ink-3">Agentur beauftragen</p>
+        <p class="h-display mt-2 text-4xl">3.000–6.000 €<span class="text-base font-medium text-ink-3"> / Monat</span></p>
+        <p class="mt-3 text-sm text-ink-2">Lange Verträge, langsames Onboarding, Ergebnisse schwer messbar. Oft 90+ Tage bis sich etwas bewegt.</p>
+        <ul class="cross-list mt-6 space-y-2.5 text-sm">
+          <li>5.000–15.000 € Website vorab</li>
+          <li>90+ Tage Einrichtung</li>
+          <li>12 bis 24 Monate Vertrag</li>
+          <li>Wechselnde Ansprechpartner</li>
+          <li>Ergebnisse, irgendwann</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ANALYSE / KONTAKT -->
+  <section id="analyse" class="bg-paper-2">
+    <div class="container-site grid gap-12 py-20 sm:py-28 lg:grid-cols-[1fr_1.1fr]">
+      <div>
+        <p class="eyebrow">Kostenlose Analyse</p>
+        <h2 class="h-display mt-3 text-3xl sm:text-4xl lg:text-5xl">Wo verlierst du gerade Kunden?</h2>
+        <p class="mt-5 text-lg text-ink-2">Ich prüfe deine Sichtbarkeit in Google, Google Maps, ChatGPT und Bewertungsportalen. Du bekommst innerhalb von 48 Stunden eine kurze Auswertung mit den drei wichtigsten Hebeln. Kostenlos, ohne Verpflichtung.</p>
+        <ul class="check-list mt-8 space-y-3">
+          <li>Sichtbarkeits-Score für Google und KI-Suchen</li>
+          <li>Vergleich mit drei lokalen Wettbewerbern</li>
+          <li>Konkrete nächste Schritte, auch ohne mich</li>
+        </ul>
+        <div class="mt-10 flex items-center gap-4">
+          <div class="h-12 w-12 rounded-full bg-forest text-white grid place-items-center font-display font-bold">GH</div>
+          <div class="text-sm">
+            <p class="font-semibold">{site.owner}</p>
+            <p class="text-ink-3">Designer, Entwickler, SEO. Eine Person, seit {site.ownerSince}.</p>
+          </div>
+        </div>
+      </div>
+      <form name="analyse" method="POST" data-netlify="true" netlify-honeypot="website-url" action="/danke" class="card p-7 sm:p-9">
+        <input type="hidden" name="form-name" value="analyse" />
+        <p class="hidden"><label>Nicht ausfüllen: <input name="website-url" /></label></p>
+        <div class="grid gap-5 sm:grid-cols-2">
+          <label class="block text-sm font-medium">Name
+            <input required name="name" type="text" autocomplete="name" class="mt-1.5 w-full rounded-lg border border-line bg-paper px-3.5 py-2.5 text-base outline-none focus:border-accent focus:ring-2 focus:ring-accent/20" />
+          </label>
+          <label class="block text-sm font-medium">Unternehmen
+            <input required name="unternehmen" type="text" autocomplete="organization" class="mt-1.5 w-full rounded-lg border border-line bg-paper px-3.5 py-2.5 text-base outline-none focus:border-accent focus:ring-2 focus:ring-accent/20" />
+          </label>
+          <label class="block text-sm font-medium">Website
+            <input name="website" type="url" placeholder="https://" class="mt-1.5 w-full rounded-lg border border-line bg-paper px-3.5 py-2.5 text-base outline-none focus:border-accent focus:ring-2 focus:ring-accent/20" />
+          </label>
+          <label class="block text-sm font-medium">Ort
+            <input required name="ort" type="text" autocomplete="address-level2" class="mt-1.5 w-full rounded-lg border border-line bg-paper px-3.5 py-2.5 text-base outline-none focus:border-accent focus:ring-2 focus:ring-accent/20" />
+          </label>
+          <label class="block text-sm font-medium">E-Mail
+            <input required name="email" type="email" autocomplete="email" class="mt-1.5 w-full rounded-lg border border-line bg-paper px-3.5 py-2.5 text-base outline-none focus:border-accent focus:ring-2 focus:ring-accent/20" />
+          </label>
+          <label class="block text-sm font-medium">Telefon <span class="font-normal text-ink-3">(optional)</span>
+            <input name="telefon" type="tel" autocomplete="tel" class="mt-1.5 w-full rounded-lg border border-line bg-paper px-3.5 py-2.5 text-base outline-none focus:border-accent focus:ring-2 focus:ring-accent/20" />
+          </label>
+          <label class="block text-sm font-medium sm:col-span-2">Was bietest du an? Wer ist dein größter Wettbewerber?
+            <textarea name="nachricht" rows="3" class="mt-1.5 w-full rounded-lg border border-line bg-paper px-3.5 py-2.5 text-base outline-none focus:border-accent focus:ring-2 focus:ring-accent/20"></textarea>
+          </label>
+        </div>
+        <button type="submit" class="btn-primary mt-6 w-full">Kostenlose Analyse anfordern</button>
+        <p class="mt-3 text-center text-xs text-ink-3">Mit dem Absenden stimmst du der <a href="/datenschutz" class="underline underline-offset-4">Datenschutzerklärung</a> zu. Keine Weitergabe, kein Newsletter.</p>
+      </form>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="container-site py-20 sm:py-28">
+    <div class="grid gap-10 lg:grid-cols-[0.8fr_1.2fr]">
+      <div>
+        <p class="eyebrow">Häufige Fragen</p>
+        <h2 class="h-display mt-3 text-3xl sm:text-4xl lg:text-5xl">Alles, was du vor dem Start wissen willst</h2>
+        <p class="mt-5 text-ink-2">Noch eine Frage? <a href={`mailto:${site.email}`} class="text-accent underline underline-offset-4">Schreib mir</a>. Ich antworte persönlich.</p>
+      </div>
+      <div class="divide-y divide-line">
+        {faq.map((f) => (
+          <details class="faq py-5">
+            <summary class="flex items-start justify-between gap-6 font-display text-lg font-semibold">
+              <span>{f.q}</span>
+              <span class="faq-icon grid h-7 w-7 flex-none place-items-center rounded-full border border-line text-ink-2">
+                <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+              </span>
+            </summary>
+            <p class="mt-3 max-w-2xl leading-relaxed text-ink-2">{f.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="container-site pb-20 sm:pb-28">
+    <div class="relative overflow-hidden rounded-xl2 bg-accent px-8 py-14 text-white sm:px-14">
+      <div class="relative z-10 max-w-2xl">
+        <h2 class="h-display text-3xl sm:text-4xl lg:text-5xl">Deine Kunden suchen gerade. Werden sie dich finden?</h2>
+        <p class="mt-4 text-lg text-white/85">Kostenlose Sichtbarkeits-Analyse in 48 Stunden. Kein Verkaufsgespräch, nur Zahlen und drei konkrete Schritte.</p>
+        <a href="#analyse" class="btn mt-8 bg-white text-ink hover:bg-lime">Jetzt Analyse anfordern</a>
+      </div>
+      <svg class="absolute -right-10 -top-10 h-72 w-72 text-white/10" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 21s-6-5.2-6-11a6 6 0 1 1 12 0c0 5.8-6 11-6 11z"/></svg>
+    </div>
+  </section>
+</Base>
