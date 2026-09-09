@@ -1,6 +1,10 @@
 ---
 import Base from "../layouts/Base.astro";
 import { site, platforms, results, cases, testimonials, smartFeatures, oldWay, newWay, faq } from "../data/site";
+import { gsc } from "../data/gsc";
+import BarChart from "../components/BarChart.astro";
+const ep = gsc.existentialpsychiatry;
+const epFirst = ep[0], epLast = ep[ep.length - 1];
 
 const price = `${site.price.monthly.toLocaleString("de-DE")} ${site.price.currency}`;
 
@@ -241,6 +245,18 @@ const jsonLd = [
         </div>
       ))}
     </div>
+    <div class="card mt-5 grid gap-8 p-7 lg:grid-cols-[0.9fr_1.6fr] lg:p-9">
+      <div>
+        <p class="eyebrow">Beispiel</p>
+        <h3 class="h-display mt-3 text-2xl sm:text-3xl">Von {epFirst.clicks.toLocaleString("de-DE")} auf {epLast.clicks.toLocaleString("de-DE")} Klicks pro Monat</h3>
+        <p class="mt-3 text-ink-2">Praxis-Website in den USA. Branding, Website und Inhalte für Suchanfragen mit hoher Absicht. Kein Werbebudget. Zahlen aus der Google Search Console, {ep.length} Monate.</p>
+        <dl class="mt-5 grid grid-cols-2 gap-4 text-sm">
+          <div><dt class="text-ink-3">Klicks gesamt</dt><dd class="font-display text-2xl font-bold">{ep.reduce((a, d) => a + d.clicks, 0).toLocaleString("de-DE")}</dd></div>
+          <div><dt class="text-ink-3">Impressionen gesamt</dt><dd class="font-display text-2xl font-bold">{(ep.reduce((a, d) => a + d.impressions, 0) / 1e6).toLocaleString("de-DE", { maximumFractionDigits: 2 })} Mio.</dd></div>
+        </dl>
+      </div>
+      <BarChart data={ep} metric="clicks" title="Existential Psychiatry" height={260} />
+    </div>
     <div class="mt-8 grid gap-5 md:grid-cols-2">
       {testimonials.map((t) => (
         <figure class="card flex flex-col justify-between p-7">
@@ -264,17 +280,23 @@ const jsonLd = [
       </div>
       <div class="mt-12 grid gap-6 sm:grid-cols-2">
         {cases.map((c) => (
-          <a href={c.url} target="_blank" rel="noopener" class="card group overflow-hidden transition hover:-translate-y-1">
-            <div class="p-5" style={`background:${c.hue}`} aria-hidden="true">
-              <div class="browser">
-                <div class="browser-bar"><i></i><i></i><i></i><span class="ml-3 rounded bg-white px-2 py-0.5 text-[11px] text-ink-3">{c.url.replace("https://", "")}</span></div>
-                <div class="h-28 bg-gradient-to-br from-white to-paper p-4">
-                  <div class="h-2.5 w-24 rounded bg-ink/80"></div>
-                  <div class="mt-2 h-2 w-40 rounded bg-ink/20"></div>
-                  <div class="mt-1.5 h-2 w-32 rounded bg-ink/20"></div>
-                  <div class="mt-4 flex gap-2"><div class="h-6 w-20 rounded-full bg-accent/80"></div><div class="h-6 w-16 rounded-full border border-line bg-white"></div></div>
+          <article class="card overflow-hidden">
+            <div class="p-5" style={`background:${c.hue}`}>
+              {c.chart ? (
+                <div class="rounded-xl bg-white p-4">
+                  <BarChart data={gsc[c.chart.key]} metric={c.chart.metric} title={c.domain} height={180} compact />
                 </div>
-              </div>
+              ) : (
+                <div class="browser" aria-hidden="true">
+                  <div class="browser-bar"><i></i><i></i><i></i><span class="ml-3 rounded bg-white px-2 py-0.5 text-[11px] text-ink-3">{c.domain}</span></div>
+                  <div class="h-40 bg-gradient-to-br from-white to-paper p-4">
+                    <div class="h-2.5 w-24 rounded bg-ink/80"></div>
+                    <div class="mt-2 h-2 w-40 rounded bg-ink/20"></div>
+                    <div class="mt-1.5 h-2 w-32 rounded bg-ink/20"></div>
+                    <div class="mt-4 flex gap-2"><div class="h-6 w-20 rounded-full bg-accent/80"></div><div class="h-6 w-16 rounded-full border border-line bg-white"></div></div>
+                  </div>
+                </div>
+              )}
             </div>
             <div class="p-6">
               <div class="flex items-center justify-between gap-4">
@@ -286,7 +308,7 @@ const jsonLd = [
                 {c.metrics.map((m) => <div><p class="font-display text-2xl font-bold text-forest">{m.v}</p><p class="text-xs text-ink-3">{m.l}</p></div>)}
               </div>
             </div>
-          </a>
+          </article>
         ))}
       </div>
     </div>

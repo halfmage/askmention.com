@@ -12,6 +12,8 @@ German landing page for a "Smart Website + local search marketing" service for l
 - `src/pages/impressum.astro`, `datenschutz.astro`: legal drafts, noindex. `danke.astro`: form thank-you. `404.astro`.
 - `src/layouts/Base.astro`: head, meta, OG, fonts, JSON-LD slot. `src/components/Header.astro`, `Footer.astro`.
 - `src/styles/global.css`: Tailwind theme tokens and small utilities (`btn-*`, `card`, `check-list`, `cross-list`, `browser`).
+- `src/data/gsc.ts`: monthly clicks/impressions per client from Google Search Console (pulled 9 Sept 2026 with `~/.claude/scripts/gsc.py`, four date chunks because the script caps at 250 rows). `src/components/BarChart.astro` renders it as inline SVG with HTML axes and a table view.
+- Client sites are named but never linked (Gerrit's rule).
 - `public/og.png`: OG image, generated from an SVG with ImageMagick. `public/favicon.svg`.
 
 ## Rules

@@ -1,0 +1,103 @@
+---
+/**
+ * Monthly bar chart from Google Search Console data. Inline SVG, no JS.
+ * One series per chart, so no legend. First and last bar are labeled.
+ * A table view sits below the chart for screen readers and print.
+ */
+import type { MonthPoint } from "../data/gsc";
+
+type Props = {
+  data: MonthPoint[];
+  metric: "clicks" | "impressions";
+  title: string;
+  color?: string;
+  height?: number;
+  compact?: boolean;
+};
+const { data, metric, title, color = "#e9421c", height = 220, compact = false } = Astro.props;
+
+const MONTHS = ["Jan", "Feb", "Mär", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"];
+const label = (m: string) => `${MONTHS[Number(m.slice(5, 7)) - 1]} ${m.slice(2, 4)}`;
+const fullLabel = (m: string) => `${["Januar","Februar","März","April","Mai","Juni","Juli","August","September","Oktober","November","Dezember"][Number(m.slice(5, 7)) - 1]} ${m.slice(0, 4)}`;
+const de = (n: number) => n.toLocaleString("de-DE");
+const short = (n: number) =>
+  n >= 1_000_000 ? `${(n / 1_000_000).toLocaleString("de-DE", { maximumFractionDigits: 1 })} Mio.`
+  : n >= 10_000 ? `${Math.round(n / 1000)} Tsd.`
+  : n >= 1_000 ? `${(n / 1000).toLocaleString("de-DE", { maximumFractionDigits: 1 })} Tsd.`
+  : de(n);
+
+const values = data.map((d) => d[metric]);
+const max = Math.max(...values, 1);
+const nice = (x: number) => { const p = 10 ** Math.floor(Math.log10(x)); const f = x / p; return (f <= 1 ? 1 : f <= 2 ? 2 : f <= 5 ? 5 : 10) * p; };
+const step = nice(max / 3);
+const top = Math.ceil(max / step) * step;
+const ticks = Array.from({ length: Math.round(top / step) + 1 }, (_, i) => i * step);
+
+const W = 640, H = height;
+const padL = 0, padR = 0, padT = 24, padB = 1;
+const plotW = W - padL - padR, plotH = H - padT - padB;
+const n = data.length;
+const band = plotW / n;
+const barW = Math.min(24, band - 2);
+const y = (v: number) => padT + plotH - (v / top) * plotH;
+const base = padT + plotH;
+const r = 4;
+const bar = (i: number, v: number) => {
+  const x = padL + i * band + (band - barW) / 2;
+  const yy = y(v);
+  const h = base - yy;
+  if (h <= r) return `M${x},${base} h${barW} v${-h} h${-barW} Z`;
+  return `M${x},${base} V${yy + r} a${r},${r} 0 0 1 ${r},${-r} h${barW - 2 * r} a${r},${r} 0 0 1 ${r},${r} V${base} Z`;
+};
+const showX = (i: number) => compact ? (i === 0 || i === n - 1 || i === Math.floor(n / 2)) : (i === 0 || i === n - 1 || (n > 8 ? i % 3 === 0 && i < n - 2 : true));
+const metricName = metric === "clicks" ? "Klicks" : "Impressionen";
+const id = `c${Math.random().toString(36).slice(2, 8)}`;
+---
+<figure class="chart" aria-labelledby={`${id}-t`}>
+  <figcaption id={`${id}-t`} class="flex items-baseline justify-between gap-3 text-xs text-ink-3">
+    <span class="font-medium text-ink-2">{title}</span>
+    <span>{metricName} pro Monat</span>
+  </figcaption>
+  <div class="mt-2 grid gap-x-2 gap-y-1.5" style={compact ? "grid-template-columns: 1fr" : "grid-template-columns: auto 1fr"}>
+    {!compact && (
+      <div class="relative w-12 text-[11px] text-ink-3 tabular-nums" aria-hidden="true">
+        {ticks.map((t) => <span class="absolute right-0 -translate-y-1/2 leading-none" style={`top:${(y(t) / H) * 100}%`}>{short(t)}</span>)}
+      </div>
+    )}
+    <div class="relative">
+      {[0, n - 1].map((i) => (
+        <span class="absolute -translate-x-1/2 -translate-y-full whitespace-nowrap text-xs font-semibold leading-none text-ink tabular-nums" style={`left:${((i + 0.5) / n) * 100}%; top:${(y(data[i][metric]) / H) * 100 - (600 / H)}%`}>{short(data[i][metric])}</span>
+      ))}
+      <svg viewBox={`0 0 ${W} ${H}`} class="block h-auto w-full" role="img" aria-label={`${title}: ${metricName} pro Monat von ${fullLabel(data[0].m)} bis ${fullLabel(data[n - 1].m)}`}>
+        {ticks.map((t) => <line x1={padL} x2={W - padR} y1={y(t)} y2={y(t)} stroke="#e6e2d8" stroke-width="1" />)}
+        {data.map((d, i) => (
+          <g class="bar">
+            <rect x={padL + i * band} y={padT} width={band} height={plotH} fill="transparent" />
+            <path d={bar(i, d[metric])} fill={color} />
+            <title>{fullLabel(d.m)}: {de(d[metric])} {metricName}</title>
+          </g>
+        ))}
+        <line x1={padL} x2={W - padR} y1={base} y2={base} stroke="#cfc9bc" stroke-width="1" />
+      </svg>
+    </div>
+    <div class="relative h-4 text-[11px] text-ink-3" style={compact ? "" : "grid-column: 2"} aria-hidden="true">
+      {data.map((d, i) => showX(i) && (
+        <span class:list={["absolute -translate-x-1/2 whitespace-nowrap leading-none", { "hidden sm:inline": !compact && i !== 0 && i !== n - 1 && i % 6 !== 0 }]} style={`left:${((i + 0.5) / n) * 100}%`}>{label(d.m)}</span>
+      ))}
+    </div>
+  </div>
+  <details class="mt-2 text-xs text-ink-3">
+    <summary class="cursor-pointer hover:text-ink">Als Tabelle</summary>
+    <div class="mt-2 overflow-x-auto">
+      <table class="w-full text-left tabular-nums">
+        <thead><tr class="border-b border-line"><th class="py-1 pr-3 font-medium">Monat</th><th class="py-1 text-right font-medium">Klicks</th><th class="py-1 text-right font-medium">Impressionen</th></tr></thead>
+        <tbody>{data.map((d) => <tr class="border-b border-line/60"><td class="py-1 pr-3">{fullLabel(d.m)}</td><td class="py-1 text-right">{de(d.clicks)}</td><td class="py-1 text-right">{de(d.impressions)}</td></tr>)}</tbody>
+      </table>
+    </div>
+  </details>
+</figure>
+<style>
+  .chart .bar path { transition: opacity 0.15s ease; }
+  .chart:hover .bar path { opacity: 0.55; }
+  .chart .bar:hover path { opacity: 1; }
+</style>

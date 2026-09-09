@@ -54,7 +54,8 @@ export const cases = [
   {
     name: "Existential Psychiatry",
     type: "Praxis · USA",
-    url: "https://existentialpsychiatry.com",
+    domain: "existentialpsychiatry.com",
+    chart: { key: "existentialpsychiatry", metric: "clicks" as const },
     text: "Branding, Website und SEO für eine psychiatrische Praxis. Inhalte so gebaut, dass sie für Suchanfragen mit hoher Absicht ranken.",
     metrics: [
       { v: "4,9 Mio.", l: "Impressionen" },
@@ -65,7 +66,8 @@ export const cases = [
   {
     name: "Ernährungsberatung Ute Becker",
     type: "Ernährungsberatung · Schermbeck",
-    url: "https://eb-becker.de",
+    domain: "eb-becker.de",
+    chart: null,
     text: "Neue Website für eine lokale Ernährungsberatung. Klare Struktur, klare Leistungen, klarer Weg zur Anfrage.",
     metrics: [
       { v: "Platz 1", l: "Name + Ort" },
@@ -76,18 +78,20 @@ export const cases = [
   {
     name: "Smella",
     type: "Konsumgüter · Deutschland",
-    url: "https://smella.de",
+    domain: "smella.de",
+    chart: { key: "smella", metric: "impressions" as const },
     text: "Branding, Website und SEO für eine neue Marke. Von Tag eins für die Suche strukturiert.",
     metrics: [
+      { v: "14×", l: "Impressionen / Monat" },
       { v: "4,9 %", l: "Klickrate organisch" },
-      { v: "Ø 7,3", l: "Position" },
     ],
     hue: "#e4e6f2",
   },
   {
     name: "Camino Network",
     type: "Plattform · Schweiz",
-    url: "https://camino.network",
+    domain: "camino.network",
+    chart: null,
     text: "Designsystem und Website für eine Reise-Plattform. Komplexe Technik in verständlicher Sprache.",
     metrics: [
       { v: "534 Tsd.", l: "Impressionen" },
