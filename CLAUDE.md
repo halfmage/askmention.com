@@ -19,7 +19,7 @@ German landing page for a "Smart Website + local search marketing" service for l
 ## Rules
 - Language: German, "du" form. Keep sentences short. No English marketing filler.
 - Numbers in the results section come from Google Search Console (8 Sept 2026). Do not invent numbers. Ask Gerrit before changing them.
-- Price 990 EUR/month is a PLACEHOLDER. Do not present it as final.
+- Price: 999 EUR/month (set by Gerrit 2026-09-09).
 - Do not change legal pages without asking.
 - Testimonials are translated from English originals on halfmage.com. Do not edit the wording.
 
@@ -30,4 +30,4 @@ German landing page for a "Smart Website + local search marketing" service for l
 - Fonts load from Google Fonts. For strict DSGVO, self-host them and remove section 5 in `datenschutz.astro`.
 
 ## Open decisions (Gerrit owns these)
-- Final monthly price. "du" vs "Sie". Contact email hello@askmention.com must exist. Client approval for testimonials. Legal review.
+"du" vs "Sie". Contact email hello@askmention.com must exist. Client approval for testimonials. Legal review.

@@ -11,7 +11,7 @@ export const site = {
   ownerSite: "https://halfmage.com",
   ownerSince: 2005,
   // TODO: Preis bestätigen. Platzhalter.
-  price: { monthly: 990, currency: "€" },
+  price: { monthly: 999, currency: "€" },
   nav: [
     { label: "Leistungen", href: "#leistungen" },
     { label: "Ergebnisse", href: "#ergebnisse" },
